@@ -13,7 +13,7 @@ public class Chat {
   public static void main(String[] argv) throws Exception {
 
     ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("52.207.78.110");
+    factory.setHost("54.90.16.210");
     factory.setUsername("admin");
     factory.setPassword("password");
     factory.setVirtualHost("/");
@@ -62,15 +62,13 @@ public class Chat {
           Chat.usuario = msg.replace("@","");
         
           do{
-          
           System.out.print("@" + Chat.usuario + ">> "); 
           msg = sc.nextLine();
-        
+  
           if(msg.charAt(0) != '@'){
             String message = "(" + formatterDma.format(data) +  " às "  + formatterHms.format(data) + ") " + user + " diz: " + msg;
             channel.basicPublish("",Chat.usuario, null,  message.getBytes("UTF-8"));
           }
-          
           }while(msg.charAt(0) != '@');
         }
       }
