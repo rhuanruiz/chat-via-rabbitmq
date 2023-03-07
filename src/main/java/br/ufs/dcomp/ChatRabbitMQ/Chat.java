@@ -3,25 +3,30 @@ package br.ufs.dcomp.ChatRabbitMQ;
 import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.*;
-import java.text.SimpleDateFormat;  
-import java.util.Date;  
+import com.google.protobuf.ByteString;
+import com.google.protobuf.util.JsonFormat;
 
 public class Chat {
   
   public static String usuario = "";
+  public static String grupo = "";
+  public static String aux_user_grupo = "";
   
   public static void main(String[] argv) throws Exception {
 
     ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("54.90.16.210");
+    factory.setHost("54.175.118.8");
     factory.setUsername("admin");
     factory.setPassword("password");
     factory.setVirtualHost("/");
     Connection connection = factory.newConnection();
     Channel channel = connection.createChannel();
     
-    System.out.print("User: ");
     Scanner sc = new Scanner(System.in);
+    Mensagem aux_msg = new Mensagem();
+    Grupo aux_grupo = new Grupo();
+    
+    System.out.print("User: ");
     String user = sc.nextLine();
     String QUEUE_NAME = user;
 
@@ -31,45 +36,51 @@ public class Chat {
       public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body)           throws IOException {
 
         String message = new String(body, "UTF-8");
-        
         System.out.println("");
-        System.out.println(message);
         
-        if(Chat.usuario != null && !Chat.usuario.trim().isEmpty()){
-          System.out.print("@" + Chat.usuario + ">> ");
- 
-        }else{
-          System.out.print(">> ");
+        try {
+          System.out.println(aux_msg.receber(body, user));
+          
+        } catch (Exception ex) {
+          ex.printStackTrace();
         }
+        
+        System.out.print(Chat.aux_user_grupo + ">> ");
         
       }
     };
     
-    SimpleDateFormat formatterDma = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat formatterHms = new SimpleDateFormat("HH:mm"); 
-    Date data = new Date(); 
+    channel.basicConsume(QUEUE_NAME, true,    consumer);
     
     while(true){
-    
-      channel.basicConsume(QUEUE_NAME, true,    consumer);
-    
-      System.out.print(">> ");
+      
+      System.out.print(Chat.aux_user_grupo + ">> ");
       String msg = sc.nextLine();
       
       if(msg.charAt(0) == '@'){
-        while(true){
-    
-          Chat.usuario = msg.replace("@","");
-        
-          do{
-          System.out.print("@" + Chat.usuario + ">> "); 
-          msg = sc.nextLine();
-  
-          if(msg.charAt(0) != '@'){
-            String message = "(" + formatterDma.format(data) +  " às "  + formatterHms.format(data) + ") " + user + " diz: " + msg;
-            channel.basicPublish("",Chat.usuario, null,  message.getBytes("UTF-8"));
-          }
-          }while(msg.charAt(0) != '@');
+        Chat.aux_user_grupo = msg;
+        Chat.usuario = msg.replace("@","");
+      }
+      
+      else if(msg.charAt(0) == '!'){
+        String[] msg_caso = msg.split(" ");
+        aux_msg.tratarCasos(msg_caso, user, channel);
+      }
+      
+      else if(msg.charAt(0) == '#'){
+        Chat.aux_user_grupo = msg;
+        Chat.grupo = msg.replace("#","");
+      }
+      
+      else if(Chat.aux_user_grupo == ""){
+        ;
+      }
+      
+      else{
+        if(Chat.aux_user_grupo.charAt(0) == '@'){
+          aux_msg.enviar(user, msg, channel, Chat.usuario, "");
+        }else if(Chat.aux_user_grupo.charAt(0) == '#'){
+          aux_msg.enviar(user, msg, channel, "", Chat.grupo);
         }
       }
     }

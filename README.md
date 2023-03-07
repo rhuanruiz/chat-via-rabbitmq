@@ -1,4 +1,7 @@
-#Grupo:
+mvn clean compile assembly:single
+java -jar target/Chat.jar
+
+# Grupo:
 Brenno Felix Santana Rodrigues
 Rhuan Lima Ruiz de Oliveira
 
