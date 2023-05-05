@@ -145,6 +145,8 @@ public class Mensagem {
                                                                                     String grupo, String aux_user_grupo) throws Exception{
         
         Grupo aux_grupo = new Grupo();
+        RESTClient aux_rest = new RESTClient();
+        String path = "";
         
         switch(msg_caso[0]){
             case "!addGroup":
@@ -165,6 +167,14 @@ public class Mensagem {
                 break;
             case "!upload":
                 upload(msg_caso[1], user, user_destino, grupo, channel_upload, aux_user_grupo);
+                break;
+            case "!listUsers":
+                path = "/api/exchanges/%2f/" + msg_caso[1] + "/bindings/source";
+                aux_rest.listarUsuarios(path);
+                break;
+            case "!listGroups":
+                path = "/api/queues/%2f/" + user + "/bindings";
+                aux_rest.listarGrupos(path);
                 break;
         }
     }

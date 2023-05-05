@@ -1,4 +1,6 @@
 /home/ubuntu/environment/chat-em-linha-de-comando-via-rabbitmq-rhuanruiz/src/main/java/br/ufs/dcomp/ChatRabbitMQ/MensagemOuterClass.java
 /home/ubuntu/environment/chat-em-linha-de-comando-via-rabbitmq-rhuanruiz/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Grupo.java
+/home/ubuntu/environment/chat-em-linha-de-comando-via-rabbitmq-rhuanruiz/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Usuario.java
 /home/ubuntu/environment/chat-em-linha-de-comando-via-rabbitmq-rhuanruiz/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Chat.java
+/home/ubuntu/environment/chat-em-linha-de-comando-via-rabbitmq-rhuanruiz/src/main/java/br/ufs/dcomp/ChatRabbitMQ/RESTClient.java
 /home/ubuntu/environment/chat-em-linha-de-comando-via-rabbitmq-rhuanruiz/src/main/java/br/ufs/dcomp/ChatRabbitMQ/Mensagem.java

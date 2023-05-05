@@ -28,5 +28,5 @@ public class Grupo {
         channel.queueUnbind(usuario, nome_grupo, "");
         channel_upload.queueUnbind(usuario + "Upload", nome_grupo + "Upload", "");
     }
-
+    
 }

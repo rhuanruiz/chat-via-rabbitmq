@@ -17,7 +17,7 @@ public class Chat {
   public static void main(String[] argv) throws Exception {
 
     ConnectionFactory factory = new ConnectionFactory();
-    factory.setHost("100.25.201.86");
+    factory.setHost("RabbitMQ-LB-73b5836bff8bc00d.elb.us-east-1.amazonaws.com");
     factory.setUsername("admin");
     factory.setPassword("password");
     factory.setVirtualHost("/");
